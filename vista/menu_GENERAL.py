@@ -57,6 +57,7 @@ class MenuGeneral:
                 os.system("cls")
                 continue
             else:
+                email = email.strip().lower()
                 break
         while True:
             print("-"*50)
@@ -79,17 +80,17 @@ class MenuGeneral:
 
     def iniciarSesion(self):
             while True:
-                print("Ingrese su nombre de usuario")
-                userInicio = input("Nombre de usuario: ")
+                print("Ingrese su correo electrónico")
+                emailInicio = input("Correo electrónico: ")
                 print("Ingrese su contraseña")
                 contraInicio = pwinput(prompt= "Contraseña: ")
-                tipo, codigo = mediador.validarLogin(userInicio, contraInicio)
+                tipo, codigo = mediador.validarLogin(emailInicio, contraInicio)
                 if tipo == "error":
                     self.mensajes(tipo, codigo)
                     os.system("cls")
                     continue
                 else:
-                    numeroUser = tipo
+                    emailInicio = tipo
                     rolUser = codigo
                     break
                 
@@ -101,7 +102,7 @@ class MenuGeneral:
                 MenuAdm.mostrarMenu()
                 self.principal()
             elif rolUser == 2:
-                Menu_usuario = Menu_user(numeroUser)
+                Menu_usuario = Menu_user(emailInicio)
                 Menu_usuario.mostrarMenu()
         
         

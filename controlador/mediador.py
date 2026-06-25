@@ -12,26 +12,6 @@ class Mediador:
             col4 = "pedidos",
             col5 = "administradores"
         )
-
-    def procesar_eleccion_menu(self, eleccion):
-        return eleccion 
-
-    def validarCreacionPaquetes(self):
-        columnas, filas = self.conexion.obtenerDestinos()
-        return filas is not None and len(filas) > 0
-
-    def crearDestinos(self, nombre, descripcion, actividades, costo):
-        nombre = nombre.capitalize()
-        try:
-            costo = float(costo)
-        except:
-            return ("error", "precio.costo") #ERROR 1 (al insertar datos)
-        destinoNuevo = modelo.clases.Destino(nombre, descripcion, actividades, costo)
-        guardado = self.conexion.registrarDestinos(destinoNuevo)
-        if guardado is True:
-            return ("exito", "destino.guardar")
-        else:
-            return ("error", "destino.guardar_fallido") #ERROR 2 (al mandar a bdd)
         
     def obtenerDestinos(self):
         columnas, filas = self.conexion.obtenerDestinos()
@@ -189,7 +169,8 @@ class Mediador:
  
 
 
- ###########################
+ #####################################################################
+ ##################################################################### esto he usado hasta ahora para la validacion de usuarios y contraseñas.
         
     def validarContrasenaCrear(self, password):
         validador = modelo.clases.Calculos()
@@ -223,13 +204,11 @@ class Mediador:
     def validarLogin(self, emailInicio, contraInicio):
         es_valido = self.conexion.validarLogin(emailInicio, contraInicio)
         if es_valido:
-                    empleado = self.conexion.numeroEmpleado(emailInicio)
-                    numeroUser = empleado[0]
+                    input("ENTER para continuar...")
                     roltest = self.conexion.validarRoles(emailInicio)
-                    rolUser = roltest[0]
                     #esta funcion se usará asumiendo que adminRRHH = 1 y usuario = 2. ASEGURARSE de que estén
                     #definidos así en la BDD
-                    return numeroUser, rolUser
+                    return emailInicio, roltest
         else:
             return ("error", "no.autenticar")
     

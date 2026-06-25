@@ -68,5 +68,29 @@ class Conexion:
                     print(evento)     
         except Exception as e:
             print(f"⚠️ Error al realizar la consulta: {e}")
+###########################################
+##########################################
+        
 
-            
+    def validarLogin(self, email, password):
+        try:
+            usuario = self.col1.find_one({"email": email})
+            if usuario and bcrypt.checkpw(password.encode('utf-8'), usuario['password'].encode('utf-8')):
+                return True
+            else:
+                return False
+        except Exception as e:
+            print(f"❌ Error validando login: {e}")
+            return False
+        
+
+    def validarRoles(self, email):
+        try:
+            usuario = self.col1.find_one({"email": email})
+            if usuario:
+                return usuario.get("id_rol", None)
+            else:
+                return None
+        except Exception as e:
+            print(f"❌ Error validando roles: {e}")
+            return None
