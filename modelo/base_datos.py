@@ -36,12 +36,9 @@ class Conexion:
         
     def crearUsuario(self, email, password, id_rol):
         try:
-            #esto es x el error que se tuvo antes. Verifica que se esté pasando en bytes
-            password_bytes = password.encode('utf-8') if isinstance(password, str) else password
-            hashed_password_str = bcrypt.hashpw(password_bytes, bcrypt.gensalt()).decode('utf-8')
             nuevo_usuario = {
                 "email": email,
-                "password": hashed_password_str,
+                "password": password,
                 "id_rol": id_rol
             }
             self.col1.insert_one(nuevo_usuario)

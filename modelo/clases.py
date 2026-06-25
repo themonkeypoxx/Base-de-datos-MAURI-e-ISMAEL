@@ -39,8 +39,9 @@ class Calculos:
             return False
         
     def encriptar_Contrasena(self, password):
-        passHash = bcrypt.hashpw(bytes(password.encode("utf-8")), bcrypt.gensalt(14))
-        return passHash
+        password_bytes = password.encode('utf-8') if isinstance(password, str) else password
+        hashed_password_str = bcrypt.hashpw(password_bytes, bcrypt.gensalt()).decode('utf-8')
+        return hashed_password_str
      
     def validarEmails(self, email):
         patron = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
