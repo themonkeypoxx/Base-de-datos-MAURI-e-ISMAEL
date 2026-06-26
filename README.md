@@ -2,7 +2,7 @@
 
 Se reutilizó código programado el año pasado (pensado para una BDD SQL, readaptado a Mongo) para el inicio de sesión, creación de cuentas e interfaces de este programa.
 
-## Cuentas por defecto.
+## Cuentas por defecto dentro de la base de datos (Incluída en entrega al profesor).
 
 - **Cuenta de usuario:** user@test.com / Us3r_Test!! 
 
