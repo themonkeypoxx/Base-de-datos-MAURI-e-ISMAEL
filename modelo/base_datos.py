@@ -73,6 +73,32 @@ class Conexion:
         except Exception as e:
             print(f"❌ Error validando roles: {e}")
             return None
+        
+    def getNombre(self, email):
+        try:
+            resultado = self.col2.find_one({"email": email})
+            if resultado:
+                return resultado.get("nombre")
+            return None
+        except Exception as e:
+            print(f"❌ Error validando roles: {e}")
+            return None
+
+    def crearCliente(self, nombre, apellido, email, direccion):
+        try:
+            nuevo_cliente = {
+                "nombre": nombre,
+                "apellido": apellido,
+                "email": email,
+                "direccion": direccion
+                }
+            self.col2.insert_one(nuevo_cliente)
+            return True
+        except Exception as e:
+            print(f"❌ Error creando usuario: {e}")
+            return False
+            
+
 
 
 #########################################################################
@@ -101,9 +127,10 @@ class Conexion:
 
     #Crear
 
-    def crearProductos(self, nombre, precio, descripcion):
+    def crearProductos(self, codigo, nombre, precio, descripcion):
         try:
             nuevo_producto = {
+                "codigoBarra": codigo,
                 "nombreProd": nombre,
                 "precio": precio,
                 "descripcion": descripcion

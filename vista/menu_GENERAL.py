@@ -49,17 +49,19 @@ class MenuGeneral:
 
     def crearCuenta(self):
         while True:
+            os.system("cls")
             print("-"*50)
             email = input("Ingrese su correo electrónico: ")
+            print("-"*50)
             tipo, codigo = mediador.validarCorreoCrear(email)
             if tipo == "error":
                 self.mensajes(tipo, codigo)
-                os.system("cls")
                 continue
             else:
                 email = email.strip().lower()
                 break
         while True:
+            os.system("cls")
             print("-"*50)
             print("Ingrese una contraseña que pueda recordar\n Debe contener números, símbolos, letras mayúsculas y minúsculas")
             print("-"*50)
@@ -67,7 +69,6 @@ class MenuGeneral:
             tipo, codigo = mediador.validarContrasenaCrear(password)
             if tipo == "error":
                 self.mensajes(tipo, codigo)
-                os.system("cls")
                 continue
             else:
                 password = codigo
@@ -75,6 +76,7 @@ class MenuGeneral:
                 if tipo == "error":
                     self.mensajes(tipo, codigo)
                 else:
+                    self.formularioCliente_Crear(email)
                     self.mensajes(tipo, codigo)
                 break
 
@@ -103,8 +105,38 @@ class MenuGeneral:
                 self.principal()
             elif rolUser == 2:
                 Menu_usuario = Menu_user(emailInicio)
-                Menu_usuario.mostrarMenu()
+                Menu_usuario.getNombre()
         
+    def formularioCliente_Crear(self, email):
+        tpN = "error"
+        cdN = "valor.erroneo.nombres"
+        while True:
+            os.system('cls')
+            print("-"*50)
+            nombre = input("Ingresa tu nombre: ")
+            valido = mediador.validarNombre(nombre)
+            if valido == True:
+                break
+            self.mensajes(tpN, cdN)
+            continue
+        while True:
+            os.system('cls')
+            print("="*50)
+            apellido = input("Ingresa tu apellido: ")
+            valido_ap = mediador.validarNombre(apellido)
+            if valido == True:
+                break
+            self.mensajes(tpN, cdN)
+            continue
+        print("="*50)
+        print("Ingresa tu dirección: ")
+        direccion_casa = input("Dirección (EJ: #450 Calle Brasil): ")
+        direccion_ciudad = input("Ciudad: ")
+        direccion = {
+                "casa": direccion_casa,
+                "ciudad": direccion_ciudad
+                }
+        mediador.crearCliente(nombre, apellido, email, direccion)
         
 
 
@@ -134,6 +166,9 @@ class MenuGeneral:
             elif codigo == "no.autenticar":
                 print("⁉️ Nombre o contraseña incorrectos.")
                 input("ENTER para volver a intentar...")
+            elif codigo == "valor.erroneo.nombres":
+                print("⁉️ Ingresa un valor válido")
+                input("ENTER para continuar...")                
         elif tipo == "exito":
             if codigo == "usuario.creado":
                 print("✅ El usuario ha sido creado con éxito!")

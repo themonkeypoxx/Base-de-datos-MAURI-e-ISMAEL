@@ -4,12 +4,21 @@ mediador = Mediador()
 from prettytable import *
 
 class Menu_user:
-    def __init__(self, numeroUser):
-        self.numeroUser = numeroUser
+    def __init__(self, email):
+        self.email = email
+
+    def getNombre(self):
+        nombre = mediador.getNombre(self.email)
+        if nombre == "error":
+            print("⁉️ Algo salió mal")
+            input("ENTER para volver al menú principal...")
+            return
+        self.mostrarMenu()
+
     def mostrarMenu(self):
         os.system("cls")
         print("####################### MENÚ USUARIOS #######################")
-        print(" 1.- Reservar un paquete turístico\n 2.- Ver reservas\n 3.- Cerrar sesión ")
+        print(" 1.- Listar Pedidos\n 2.- Hacer un pedido\n 3.- Cancelar Pedido (Borrar)\n 4.- Cambiar fecha de entrega de un pedido (Editar)\n 5.- Cerrar sesión ")
         print("#############################################################")
         seleccion = input("Elija una opción:  ")
         self.procesarEleccion(seleccion)
@@ -26,12 +35,13 @@ class Menu_user:
             self.mostrarMenu()
         else:
             if seleccion == 1:
-                self.formularioReservas()
+                pass
                 self.mostrarMenu()
             elif seleccion == 2:
-                self.listarReservasUsuario()
+                pass
                 self.mostrarMenu()
-            elif seleccion == 3:
+            #######AGREGAR 3 Y 4
+            elif seleccion == 5:
                 print("¿Cerrar sesión?")
                 confirmacion = input("(S | N):  ")
                 confirmacion = confirmacion.strip().upper()

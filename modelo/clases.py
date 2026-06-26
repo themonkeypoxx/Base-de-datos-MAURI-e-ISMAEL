@@ -49,3 +49,10 @@ class Calculos:
          return True
         else:
          return False
+
+    def validarNombre(self, nombre):
+        tiene_simbolo = re.search(r'[]!@#$%^&*(),.?"{}|<>/]', nombre)
+        if tiene_simbolo:
+            return False
+        else:
+            return True

@@ -79,11 +79,16 @@ class Menu_Admin:
             print("-"*75)
             print("-📖 Resultados de la consulta-")
             print("-🔎 Todos los productos-")
+            tabla = PrettyTable()
+            tabla.field_names = ["Codigo de Barras", "Producto","Descripción","Precio"]
             for productos in tipo:
+                codigo = productos.get("codigoBarra", "N/A")
                 nombre = productos.get("nombreProd", "N/A")
                 desc = productos.get("descripcion", "N/A")
                 precio = productos.get("precio", 0)
-                print(f"Nombre: {nombre} | Desc: {desc} | Precio: {precio}")
+                precio_mostrar = f"${precio}"
+                tabla.add_row([codigo, nombre, desc, precio_mostrar])
+            print(tabla)
 
 #######################################################
 ###########           CREACION          ###############
@@ -95,7 +100,8 @@ class Menu_Admin:
         nombre = input("Nombre producto: " )
         precio = input("Precio (CLP): $")
         desc = input("Descripcion breve: ")
-        tipo = self.mediador.crearProducto(nombre, precio, desc)
+        codigo = input("Digite codigo de barras: ")
+        tipo = self.mediador.crearProducto(codigo, nombre, precio, desc)
         if tipo == "error":
             self.mensajeError("producto.fallo.crear")
         else:

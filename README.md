@@ -7,3 +7,7 @@ Se reutilizó código programado el año pasado (pensado para una BDD SQL, reada
 - **Cuenta de usuario:** user@test.com / Us3r_Test!! 
 
 - **Cuenta de administrador:**  admin@test.com / Adm1n_Test!!
+
+Se especifican los usuarios por como funcionan los roles ñy la creación de usuarios dentro del programa.
+Rol de administrador solo puede ser otorgado desde la Base de Datos.
+- **EL MENÚ PRINCIPAL SOLO PUEDE CREAR USUARIOS DE ROL 2 (USUARIOS COMUNES)**
