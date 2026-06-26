@@ -14,9 +14,6 @@ class Conexion:
             self.col5 = self.db[col5]
         except Exception as e:
             print(f"❌ Error conectando a MongoDB: {e}")
-        else:
-            print("✅ Conexión a MongoDB exitosa.")
-            input("Presione ENTER para continuar...")
     def cerrar(self):
         try:
             self.client.close()
@@ -24,6 +21,12 @@ class Conexion:
             print(f"❌ Error cerrando la conexión a MongoDB: {e}")
         else:
             print("✅ Conexión a MongoDB cerrada correctamente.")
+
+
+
+ #####################################################################
+ ############              LOGIN Y SIGN IN             ############### (BASE DE DATOS) 
+ #####################################################################
 
 
     def correoExiste(self, email):
@@ -46,28 +49,7 @@ class Conexion:
         except Exception as e:
             print(f"❌ Error creando usuario: {e}")
             return False
-
-        ##ajuste vista, later
-    def estandar(coleccion, filtro_ctdo, proyeccion_ctdo, tipo):
-        os.system('cls')
-        print("-"*75)
-        print("-📖 Resultados de la consulta-")
-        print(f"-🔎 Tipo consulta: {tipo}")
-        try:
-            filtro = filtro_ctdo
-            proyeccion = proyeccion_ctdo
-            resultados = list(coleccion.find(filtro, proyeccion))
-            encontrados = list(resultados)
-            if not encontrados:
-                print("⚠️No se encontraron registros.")
-            else:
-                for evento in encontrados:
-                    print(evento)     
-        except Exception as e:
-            print(f"⚠️ Error al realizar la consulta: {e}")
-###########################################
-##########################################
-        
+ 
 
     def validarLogin(self, email, password):
         try:
@@ -91,3 +73,45 @@ class Conexion:
         except Exception as e:
             print(f"❌ Error validando roles: {e}")
             return None
+
+
+#########################################################################
+##########               LISTADO ESTÁNDAR                ################
+#########################################################################
+
+    def estandar(self, filtro_ctdo, proyeccion_ctdo):
+        try:
+            filtro = filtro_ctdo
+            proyeccion = proyeccion_ctdo
+            resultados = list(self.col3.find(filtro, proyeccion))
+            encontrados = list(resultados)
+            # CONSULTA DENTRO DE MONGODB !!!! db.eventos.find({},{"_id": 0, "invitados": 0})
+            #                                                 (FILTRO CTDO)         (PROYECCION_CTDO)
+            if not encontrados:
+                return None
+            else:
+                return encontrados
+        except Exception as e:
+            print(f"⚠️ Error al realizar la consulta: {e}")
+
+
+##########################################################################
+##########            PRODUCTOS C.R.U.D                     ##############
+##########################################################################
+
+    #Crear
+
+    def crearProductos(self, nombre, precio, descripcion):
+        try:
+            nuevo_producto = {
+                "nombreProd": nombre,
+                "precio": precio,
+                "descripcion": descripcion
+            }
+            self.col3.insert_one(nuevo_producto)
+            return True
+        except Exception as e:
+            print(f"❌ Error creando producto: {e}")
+            return None
+        
+    #Editar (MAURI)
