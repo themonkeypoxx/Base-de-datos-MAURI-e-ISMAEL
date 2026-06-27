@@ -14,7 +14,7 @@ Rol de administrador solo puede ser otorgado desde la Base de Datos.
 
 
 ## Distribución de funciones (Código)
- **Funciones de Crear y Listar productos: Ismael Figueroa** 
+ **Funciones de Crear y Listar productos: Ismael Figueroa** <br> 
     Base-de-datos-MAURI-e-ISMAEL\vista\menu_ADMINS.py líneas 69 a 108 (Menús y formularios)
     <br>
     Base-de-datos-MAURI-e-ISMAEL\controlador\mediador.py líneas 82 a 94 (Controlador)
@@ -24,7 +24,7 @@ Rol de administrador solo puede ser otorgado desde la Base de Datos.
     Base-de-datos-MAURI-e-ISMAEL\modelo\base_datos.py Líneas 130 a 142 (Crear Productos)
 
 
-**Funciones de Inicio de sesión, creación de usuarios: Ismael Figueroa**
+**Funciones de Inicio de sesión, creación de usuarios: Ismael Figueroa** <br>
     Base-de-datos-MAURI-e-ISMAEL\vista\menu_GENERAL.py (Reutilizado)
     <br>
     Base-de-datos-MAURI-e-ISMAEL\modelo\base_datos.py Líneas 31 a 99 
