@@ -10,12 +10,23 @@ Se reutilizó código programado el año pasado (pensado para una BDD SQL, reada
 
 - **👤Cuenta de administrador:**  admin@test.com / Adm1n_Test!!
 
---***ℹ️ Es importante usar la cuenta de administrador al autenticar para probar las funciones de admin. El programa no crea cuentas de adminisitrador. El rol de administrador solo puede ser otorgado a un usuario con un cambio hecho desde la BDD***
+--***ℹ️ Es importante usar la cuenta de administrador al autenticar para probar las funciones de admin. El programa no crea cuentas de administrador. El rol de administrador solo puede ser otorgado a un usuario con un cambio hecho desde la BDD***
 
 --- **⚠️ Si existen problemas para iniciar sesión con usuarios especificados, ejecutar desde archivos "menu_admin_test_directo.py" o "menu_user_test.py"**
+<br>
+## FUNCIONES DENTRO DEL CÓDIGO
+<br>
+- Autenticación y creación de cuentas de usuario y perfiles de cliente
+<br>
+- CRUD Productos (Admin)
+<br>
+- CRUD Pedidos (Cliente)
+<br>
+- R Productos (Admin y Cliente)
+<br>
 
 
-## Distribución de funciones (Código)
+## Distribución del desarrollo de las funciones (Código)
  **🟩Funciones de Crear y Listar productos: Ismael Figueroa** <br> 
     <br>
     Base-de-datos-MAURI-e-ISMAEL\vista\menu_ADMINS.py líneas 69 a 91 (Menús y formularios)
