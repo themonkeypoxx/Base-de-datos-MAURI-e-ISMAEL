@@ -13,40 +13,40 @@ class Menu_user:
             print("⁉️ Algo salió mal")
             input("ENTER para volver al menú principal...")
             return
-        self.mostrarMenu()
+        self.mostrarMenu(nombre)
 
-    def mostrarMenu(self):
+    def mostrarMenu(self, nombre):
         os.system("cls")
         print("####################### MENÚ USUARIOS #######################")
         print(" 1.- Listar Pedidos\n 2.- Hacer un pedido\n 3.- Cancelar Pedido (Borrar)\n 4.- Cambiar fecha de entrega de un pedido (Editar)\n 5.- Cerrar sesión ")
         print("#############################################################")
         seleccion = input("Elija una opción:  ")
-        self.procesarEleccion(seleccion)
+        self.procesarEleccion(seleccion, nombre)
 
 
 
 
-    def procesarEleccion(self, seleccion):
+    def procesarEleccion(self, seleccion, nombre):
         try:
             seleccion = int(seleccion)
         except: 
             print("Ingrese un número entero.")
             input("ENTER para continuar...")
-            self.mostrarMenu()
+            self.mostrarMenu(nombre)
         else:
             if seleccion == 1:
                 pass
-                self.mostrarMenu()
+                self.mostrarMenu(nombre)
             elif seleccion == 2:
-                pass
-                self.mostrarMenu()
+                self.formularioPedidos()
+                self.mostrarMenu(nombre)
             #######AGREGAR 3 Y 4
             elif seleccion == 5:
                 print("¿Cerrar sesión?")
                 confirmacion = input("(S | N):  ")
                 confirmacion = confirmacion.strip().upper()
                 if confirmacion == "N":
-                    self.mostrarMenu()
+                    self.mostrarMenu(nombre)
                 elif confirmacion == "S":
                     print("Cerrando sesión...")
                     input("ENTER para continuar...")
@@ -54,68 +54,30 @@ class Menu_user:
             else: 
                 print("Ingrese solo las opciones disponibles.")
                 input("ENTER para continuar...")
+                self.mostrarMenu(nombre)
 
 
+#################################################
+##########  FORMULARIOS PARA OPERAR    ##########
+#################################################
 
-#####################################
-    def listarReservasUsuario(self):
-        id_usuario = self.numeroUser
-        hay_reservas = mediador.verificarSiHay(id_usuario)
-        if not hay_reservas:
-            self.mensajes("error", "no.reservas")
-            return
-        username = mediador.obtenerNombre(id_usuario)
-        columnas, filas = mediador.mostrarReservas(id_usuario)
-        print(f"========== RESERVAS DE {username} ==========")
-        tabla = PrettyTable()
-        tabla.field_names = columnas 
-        for fila in filas:
-            tabla.add_row(fila)
-        print(tabla) 
-        input("ENTER para continuar...")
+    def formularioPedidos(self):
+        self.listarProductos()
 
 
 
 
+#################################################
+################## LISTADO ######################
+#################################################
+    def listarProductos(self): 
+        mediador.listarProductos()
 
 
 
-
-    def formularioReservas(self):
-        self.listarPaquetes()
-        id_paquete = input("Ingrese la ID del paquete que desea reservar o 's' si desea volver: ")
-        if id_paquete == 's':
-            return
-        id_usuario = self.numeroUser
-        tipo, codigo = mediador.reservarPaquete(id_paquete, id_usuario)
-        self.mensajes(tipo, codigo)
+#ESTA PARTE MOVER SIEMPRE AL FINAL.
+######################################################
+################## MENSAJES ##########################
+######################################################
 
 
-    def mensajes(self, tipo, codigo):
-        if tipo == "error":
-            if codigo == "reserva.fallida":
-                print("⁉️ No se pudo crear la reserva.")
-                input("ENTER para continuar...")
-            elif codigo == "no.reservas":
-                print("⁉️ No hay ninguna reserva asociada al usuario")
-                input("ENTER para continuar...")
-        elif tipo == "exito":
-            if codigo == "reserva.crear":
-                print("✅ La reserva se realizó con éxito")
-                input("ENTER para continuar...")
-
-    def listarPaquetes(self):
-        os.system("cls")
-        id_usuario = self.numeroUser
-        columnas, filas = mediador.obtenerPaquetesDisp(id_usuario)
-        if len(filas) == 0:
-            print("⚠️ Actualmente no existen paquetes turísticos registrados o el usuario \n reservó todo el contenido disponible")
-            input("ENTER para continuar")
-            return
-
-        print("========== PAQUETES TURÍSTICOS DISPONIBLES ==========")
-        tabla = PrettyTable()
-        tabla.field_names = columnas 
-        for fila in filas:
-            tabla.add_row(fila)
-        print(tabla) 

@@ -73,11 +73,8 @@ class MenuGeneral:
             else:
                 password = codigo
                 tipo, codigo = mediador.crearUsuario(email, password)
-                if tipo == "error":
-                    self.mensajes(tipo, codigo)
-                else:
-                    self.formularioCliente_Crear(email)
-                    self.mensajes(tipo, codigo)
+                self.formularioCliente_Crear(email, tipo)
+                self.mensajes(tipo, codigo)
                 break
 
     def iniciarSesion(self):
@@ -107,7 +104,9 @@ class MenuGeneral:
                 Menu_usuario = Menu_user(emailInicio)
                 Menu_usuario.getNombre()
         
-    def formularioCliente_Crear(self, email):
+    def formularioCliente_Crear(self, email, tipo):
+        if tipo == "error":
+            return
         tpN = "error"
         cdN = "valor.erroneo.nombres"
         while True:
@@ -116,6 +115,10 @@ class MenuGeneral:
             nombre = input("Ingresa tu nombre: ")
             valido = mediador.validarNombre(nombre)
             if valido == True:
+                if nombre == "error":
+                    print(f"🚫 El nombre '{nombre}' no está permitido en el sistema.\nPruebe con otro.\n💡 Sugerencia: Utilice su nombre real o un apodo.")
+                    input("==========================================================\nENTER para continuar...")
+                    continue
                 break
             self.mensajes(tpN, cdN)
             continue

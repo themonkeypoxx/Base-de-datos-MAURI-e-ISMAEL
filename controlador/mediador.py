@@ -1,5 +1,6 @@
 from modelo.base_datos import Conexion
 import modelo.clases
+from vista.LISTADO_GENERAL import General
 
 class Mediador:
     def __init__(self):
@@ -61,8 +62,7 @@ class Mediador:
         nombre = self.conexion.getNombre(email)
         if nombre is None:
             nombre = "error"
-        else:
-            return nombre
+        return nombre
         
     def validarNombre(self, nombre):
         validador = modelo.clases.Calculos()
@@ -85,7 +85,8 @@ class Mediador:
         tipo = self.conexion.estandar(filtro, proyeccion)
         if tipo is None:
             tipo = "error"
-        return tipo
+        resultados = General()
+        resultados.ListarProd_General(tipo)
     
     def crearProducto(self, codigo, nombre, precio, desc):
         tipo = self.conexion.crearProductos(codigo, nombre, precio, desc)
