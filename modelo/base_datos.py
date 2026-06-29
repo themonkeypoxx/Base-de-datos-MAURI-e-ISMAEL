@@ -141,4 +141,22 @@ class Conexion:
             print(f"❌ Error creando producto: {e}")
             return None
         
-    #Editar (MAURI)
+    #Editar y borrar  (MAURI) ###################
+    #####################
+
+
+##########################################################################
+##########              PEDIDOS C.R.U.D                     ##############
+##########################################################################
+
+
+    def getCodigoBarra(self, codigo):
+        try:
+            codigoBarra = self.col1.find_one({"codigoBarra": codigo})
+            if codigoBarra:
+                return codigoBarra.get("codigoBarra", None)
+            else:
+                return None
+        except Exception as e:
+            print(f"❌ Error obteniendo código de barras: {e}")
+            return None

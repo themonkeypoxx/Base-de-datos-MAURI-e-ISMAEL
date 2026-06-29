@@ -56,9 +56,13 @@ class Menu_Admin:
         os.system('cls')
         if error == "productos.nada":
             print("⁉️ No existe ningún registro aún!\n💡Será devuelto al menú. Asegúrese de agregar un producto")
-            input("Enter para continuar...")
+            input("ENTER para continuar...")
         elif error == "producto.fallo.crear":
-            print("")
+            print("⁉️ Ocurrió un error al crear el producto.")
+            input("ENTER para continuar...")
+        elif error == "producto.existente.barra":
+            print("⁉️ Ya existe un producto con este código de barras\n💡Será devuelto al menú. Asegúrese de digitar el código de barras correspondiente al producto")
+            input("ENTER para continuar...")           
     
     def mensajeExito(self, exito):
         os.system('cls')
@@ -83,8 +87,12 @@ class Menu_Admin:
         nombre = input("Nombre producto: " )
         precio = input("Precio (CLP): $")
         desc = input("Descripcion breve: ")
-        codigo = input("Digite codigo de barras: ")
-        tipo = self.mediador.crearProducto(codigo, nombre, precio, desc)
+        codigo_B = input("Digite codigo de barras: ")
+        tipo, codigo = self.mediador.validarCodigoBarra(codigo_B)
+        if tipo == "error":
+            self.mensajeError("producto.existente.barra")
+            return
+        tipo = self.mediador.crearProducto(codigo_B, nombre, precio, desc)
         if tipo == "error":
             self.mensajeError("producto.fallo.crear")
         else:

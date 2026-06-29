@@ -22,7 +22,7 @@ Se reutilizó código programado el año pasado (pensado para una BDD SQL, reada
 <br>
 - CRUD Pedidos (Cliente)
 <br>
-- R Productos (Admin y Cliente)
+- Leer Productos (Admin y Cliente)
 <br>
 
 

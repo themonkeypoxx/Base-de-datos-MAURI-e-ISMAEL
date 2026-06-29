@@ -75,9 +75,9 @@ class Mediador:
     def crearCliente(self, nombre, apellido, email, direccion):
         guardado = self.conexion.crearCliente(nombre, apellido, email, direccion)
     
-####################################################################
-############# PRODUCTOS ###########################################
-###################################################################
+##################################################################
+######################### PRODUCTOS ##############################
+##################################################################
 
     def listarProductos(self):
         filtro = {}
@@ -93,3 +93,15 @@ class Mediador:
         if tipo is None:
             tipo = "error"
         return tipo
+    
+#########################################################################
+######################### PEDIDOS #######################################
+#########################################################################
+
+
+    def validarCodigoBarra(self, codigoBarra):
+        valido = self.conexion.getCodigoBarra(codigoBarra)
+        if valido is None:
+            tipo = "error"
+            codigo = "codigo.erroneo.barras"
+        return tipo, codigo
