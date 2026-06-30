@@ -34,12 +34,10 @@ class Menu_Admin:
                 self.formularioProductos()
                 self.mostrarMenu()
             elif eleccion == 3:
-                pass
-                input("ENTER para volver...")
+                self.formularioEditarProducto()
                 self.mostrarMenu()
             elif eleccion == 4:
-                pass
-                input("ENTER para volver...")
+                self.formularioEliminarProducto()
                 self.mostrarMenu()
             elif eleccion == 5:
                 print("Cerrando sesión...")
@@ -62,12 +60,24 @@ class Menu_Admin:
             input("ENTER para continuar...")
         elif error == "producto.existente.barra":
             print("⁉️ Ya existe un producto con este código de barras\n💡Será devuelto al menú. Asegúrese de digitar el código de barras correspondiente al producto")
-            input("ENTER para continuar...")           
+            input("ENTER para continuar...") 
+        elif error == "producto.fallo.editar":
+            print("⁉️ No se pudo editar el producto. Verifique el código de barras.")
+            input("ENTER para continuar...")
+        elif error == "producto.fallo.eliminar":
+            print("⁉️ No se pudo eliminar el producto. Verifique el código de barras.")
+            input("ENTER para continuar...")          
     
     def mensajeExito(self, exito):
         os.system('cls')
         if exito == "producto.crear":
             print("✅ Producto registrado correctamente!")
+            input("Enter para continuar...")
+        elif exito == "producto.editar":
+            print("✅ Producto editado correctamente!")
+            input("Enter para continuar...")
+        elif exito == "producto.eliminar":
+            print("✅ Producto eliminado correctamente!")
             input("Enter para continuar...")
 
 #######################################################
@@ -97,3 +107,41 @@ class Menu_Admin:
             self.mensajeError("producto.fallo.crear")
         else:
             self.mensajeExito("producto.crear")
+
+    def formularioEditarProducto(self):
+        os.system('cls')
+        print("######### Editar Producto ##########")
+        self.mediador.listarProductos()
+        codigo_B = input("Ingrese el código de barras del producto a editar: ")
+        tipo, codigo = self.mediador.validarCodigoBarra(codigo_B) 
+        if tipo == "error":                                          
+            self.mensajeError("producto.existente.barra")          
+            return                                                   
+        nombre = input("Nuevo nombre: ")
+        precio = input("Nuevo precio (CLP): $")
+        desc = input("Nueva descripción: ")
+        resultado = self.mediador.editarProducto(codigo_B, nombre, precio, desc)
+        if resultado == "error":
+            self.mensajeError("producto.fallo.editar")
+        else:
+            self.mensajeExito("producto.editar")
+
+    def formularioEliminarProducto(self):
+        os.system('cls')
+        print("######### Eliminar Producto ##########")
+        self.mediador.listarProductos()
+        codigo_B = input("Ingrese el código de barras del producto a eliminar: ")
+        tipo, codigo = self.mediador.validarCodigoBarra(codigo_B) 
+        if tipo == "error":                                          
+            self.mensajeError("producto.existente.barra")           
+            return                                                  
+        confirmacion = input(f"¿Seguro que desea eliminar el producto '{codigo_B}'? (S/N): ").strip().upper()
+        if confirmacion != "S":
+            print("Operación cancelada.")
+            input("ENTER para continuar...")
+            return
+        resultado = self.mediador.eliminarProducto(codigo_B)
+        if resultado == "error":
+            self.mensajeError("producto.fallo.eliminar")
+        else:
+            self.mensajeExito("producto.eliminar")

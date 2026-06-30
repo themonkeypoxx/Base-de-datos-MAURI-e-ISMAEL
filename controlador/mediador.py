@@ -94,6 +94,36 @@ class Mediador:
             tipo = "error"
         return tipo
     
+    def editarProducto(self, codigo, nombre, precio, desc):
+        tipo = self.conexion.editarProducto(codigo, nombre, precio, desc)
+        if tipo is None:
+            return "error"
+        return "exito"
+
+    def eliminarProducto(self, codigo):
+        tipo = self.conexion.eliminarProducto(codigo)
+        if tipo is None:
+            return "error"
+        return "exito"
+
+    def editarPedido(self, id_pedido, fecha_entrega):
+        tipo = self.conexion.editarPedido(id_pedido, fecha_entrega)
+        if tipo is None:
+            return "error"
+        return "exito"
+
+    def eliminarPedido(self, id_pedido):
+        tipo = self.conexion.eliminarPedido(id_pedido)
+        if tipo is None:
+            return "error"
+        return "exito"
+
+    def listarPedidos(self, email):
+        tipo = self.conexion.listarPedidos(email)
+        if tipo is None:
+            return "error"
+        return tipo
+    
 #########################################################################
 ######################### PEDIDOS #######################################
 #########################################################################

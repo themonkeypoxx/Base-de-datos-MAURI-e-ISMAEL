@@ -143,7 +143,71 @@ class Conexion:
         
     #Editar y borrar  (MAURI) ###################
     #####################
+    def editarProducto(self, codigo, nombre, precio, descripcion):
+        try:
+            resultado = self.col3.update_one(
+                {"codigoBarra": codigo},
+                {"$set": {
+                    "nombreProd": nombre,
+                    "precio": precio,
+                    "descripcion": descripcion
+                }}
+            )
+            if resultado.modified_count > 0:
+                return True
+            else:
+                return None  # No encontró el producto :v
+        except Exception as e:
+            print(f"❌ Error editando producto: {e}")
+            return None
 
+    def eliminarProducto(self, codigo):
+        try:
+            resultado = self.col3.delete_one({"codigoBarra": codigo})
+            if resultado.deleted_count > 0:
+                return True
+            else:
+                return None
+        except Exception as e:
+            print(f"❌ Error eliminando producto: {e}")
+            return None
+
+    def editarPedido(self, id_pedido, fecha_entrega):
+        try:
+            from bson import ObjectId
+            resultado = self.col4.update_one(
+                {"_id": ObjectId(id_pedido)},
+                {"$set": {"fecha_entrega": fecha_entrega}}
+            )
+            if resultado.modified_count > 0:
+                return True
+            else:
+                return None
+        except Exception as e:
+            print(f"❌ Error editando pedido: {e}")
+            return None
+
+    def eliminarPedido(self, id_pedido):
+        try:
+            from bson import ObjectId
+            resultado = self.col4.delete_one({"_id": ObjectId(id_pedido)})
+            if resultado.deleted_count > 0:
+                return True
+            else:
+                return None
+        except Exception as e:
+            print(f"❌ Error eliminando pedido: {e}")
+            return None
+
+    def listarPedidos(self, email):
+        try:
+            resultados = list(self.col4.find({"email_cliente": email}))
+            if not resultados:
+                return None
+            return resultados
+        except Exception as e:
+            print(f"❌ Error listando pedidos: {e}")
+            return None
 
 ##########################################################################
 ##########              PEDIDOS C.R.U.D                     ##############
