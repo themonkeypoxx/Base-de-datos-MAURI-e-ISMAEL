@@ -35,7 +35,9 @@ class Menu_user:
             self.mostrarMenu(nombre)
         else:
             if seleccion == 1:
-                pass
+                correo = self.email 
+                self.listarPedidos(nombre, correo)
+                input("ENTER para continuar")
                 self.mostrarMenu(nombre)
             elif seleccion == 2:
                 lista_productos = []
@@ -100,22 +102,33 @@ class Menu_user:
                                 "cantidad": ctdad_prod,
                                 "precioCantidad": precio}
                     lista.append(producto)
+                    break
+        while True:
                     os.system('cls')
                     print("¿Desea agregar más productos al pedido?")
                     opcion = input("(S/N): ")
-                    opcion.capitalize()
+                    opcion = opcion.strip().capitalize()
                     if opcion == "S":
                         self.formularioPedidos(lista)
+                    elif opcion == "N":
+                        correo = self.email
+                        precioTotal = mediador.calcuarPrecio_Total(lista)
+                        if precioTotal == "error":
+                            self.mensajes(precioTotal, "pedido.crear.fallo")
+                            return
+                        tipo, codigo = mediador.crearPedido(lista, precioTotal, correo)
+                        if tipo == "error":
+                            self.mensajes(tipo, codigo)
+                            return
+                        else:
+                            self.mensajes(tipo, codigo)
+                            return
                     else:
+                        input("Ingrese 's' o 'n'\nENTER para volver a intentar")
+                        continue
                         
-                        input("ENTER para volver al menú...")
 
-            ## Aquí más adelante (de Ismael para Ismael)- AGREGAR QUE EL USUARIO
-            ## PUEDA AGREGAR CANTIDAD Y FECHA DE ENVÍO/RETIRO.
-            ## LA FECHA DEL PEDIDO SE AGREGARÁ DE FORMA AUTOMÁTICA, ASÍ COMO LOS PRECIOS Y EL PRECIO TOTAL
-            ######
-            ## Recordatorio: LOS PRODUCTOS DENTRO DE UN PEDIDO SON SUBDOCUMENTOS
-            ## (ES DECIR: Debo hacer un bucle de codigo de barra y cantidad, luego otro bucle para la fecha de retiro/entrega)
+
 
             
 
@@ -138,10 +151,12 @@ class Menu_user:
 ################## LISTADO ######################
 #################################################
 
-## Esta función no está mal, es así de corta xq nomas llama otras
+## Estas funciones no están mal, son así de cortas xq nomas llaman otras
     def listarProductos(self): 
         mediador.listarProductos()
 
+    def listarPedidos(self, nombre, email):
+        mediador.listarPedidos(nombre, email)
 
 
 
@@ -169,4 +184,13 @@ class Menu_user:
             elif codigo == "calculo.fallo":
                 print("⁉️ No se pudo calcular el precio de este producto en su pedido.")
                 input("ENTER para volver a intentar\nLos productos agregados con anterioridad se conservan aún en el pedido.") 
+            elif codigo == "pedido.crear.fallo":
+                input("⁉️ Ocurrió un error durante la creación de su pedido.\nENTER para volver al menú...")
+            elif codigo == "no.pedidos":
+                input("⁉️ No hay pedidos realizados desde tu cuenta.\nENTER para volver al menú...")
+
+        elif tipo == "exito":
+            if codigo == "pedido.crear":
+                input("ℹ️ El pedido fue creado con éxito!.\nENTER para volver al menú...")
+                
 

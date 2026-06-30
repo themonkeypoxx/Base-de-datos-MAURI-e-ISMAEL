@@ -1,4 +1,3 @@
-from datetime import datetime
 import re
 import bcrypt
 
@@ -7,24 +6,6 @@ class Calculos:
     def __init__(self):
         pass
 
-    def normalizar_fecha(self, fecha):
-        fecha_str = fecha
-
-        formatos = [
-            "%d/%m/%Y", "%d-%m-%Y",
-            "%Y/%m/%d", "%Y-%m-%d",
-            "%m/%d/%Y", "%m-%d-%Y",
-            "%d.%m.%Y", "%Y.%m.%d"
-        ]
-        
-        for fmt in formatos:
-            try:
-                fecha_normalizada = datetime.strptime(fecha_str, fmt)
-                return fecha_normalizada.strftime("%Y-%m-%d")
-            except ValueError:
-                pass  
-        
-        return None
     
     def validadorContras(self, password):
         if len(password) < 10:
@@ -56,3 +37,8 @@ class Calculos:
             return False
         else:
             return True
+        
+    def calcular_total_precio(self, lista_productos):
+    #Suma el valor de "precioCantidad" por cada producto en la listaaaaaaaaaaaaaa
+        return sum(producto["precioCantidad"] for producto in lista_productos)
+    

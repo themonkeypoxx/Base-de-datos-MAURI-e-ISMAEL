@@ -105,7 +105,11 @@ class Mediador:
         if tipo is None:
             return "error"
         return "exito"
+    
 
+#########################################################################
+######################### PEDIDOS #######################################
+#########################################################################
     def editarPedido(self, id_pedido, fecha_entrega):
         tipo = self.conexion.editarPedido(id_pedido, fecha_entrega)
         if tipo is None:
@@ -118,15 +122,13 @@ class Mediador:
             return "error"
         return "exito"
 
-    def listarPedidos(self, email):
+    def listarPedidos(self, nombre, email):
         tipo = self.conexion.listarPedidos(email)
         if tipo is None:
-            return "error"
-        return tipo
-    
-#########################################################################
-######################### PEDIDOS #######################################
-#########################################################################
+            tipo = "error"
+        resultados = General()
+        resultados.ListarPedidos_General(nombre, tipo)
+
 
 
     def validarCodigoBarra(self, codigoBarra):
@@ -149,3 +151,25 @@ class Mediador:
             tipo = "exito"
             codigo = total
         return tipo, codigo
+    
+    def calcuarPrecio_Total(self, lista):
+        calculadora = modelo.clases.Calculos()
+        try:
+            monto = calculadora.calcular_total_precio(lista)
+        except Exception as e:
+            print(e)
+            input("ENTER (debe posteriormente reportar este error en caso de aparecer)")
+            monto = "error"
+        return monto
+    
+
+    def crearPedido(self, lista, precioTotal, email):
+        guardado = self.conexion.crearPedido(lista, precioTotal,email)
+        if guardado is None:
+            tipo = "error"
+            codigo = "pedido.crear.fallo"
+        else:
+            tipo = "exito"
+            codigo = "pedido.crear"
+        return tipo, codigo
+    

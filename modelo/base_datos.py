@@ -96,7 +96,7 @@ class Conexion:
             return True
         except Exception as e:
             print(f"❌ Error creando usuario: {e}")
-            return False
+            return None
             
 
 
@@ -172,6 +172,25 @@ class Conexion:
             print(f"❌ Error eliminando producto: {e}")
             return None
 
+##########################################################################
+##########              PEDIDOS C.R.U.D                     ##############
+##########################################################################
+
+    def crearPedido(self, lista, precioTotal, email):
+        try:
+            nuevo_pedido = {
+                "productos": lista,
+                "precioTotal": precioTotal,
+                "cliente_email": email
+            }
+            self.col4.insert_one(nuevo_pedido)
+            return True
+        except Exception as e:
+            print(f"❌ Error creando pedido: {e}")
+            input()
+            return None
+
+
     def editarPedido(self, id_pedido, fecha_entrega):
         try:
             from bson import ObjectId
@@ -201,7 +220,7 @@ class Conexion:
 
     def listarPedidos(self, email):
         try:
-            resultados = list(self.col4.find({"email_cliente": email}))
+            resultados = list(self.col4.find({"cliente_email": email}))
             if not resultados:
                 return None
             return resultados
@@ -224,9 +243,7 @@ class Conexion:
             print(f"❌ Error obteniendo código de barras: {e}")
             return None
         
-##########################################################################
-##########              PEDIDOS C.R.U.D                     ##############
-##########################################################################
+
     def calculoPrecio(self, cantidad, codigo):
         try:
             resultado = self.col3.aggregate([
@@ -249,8 +266,7 @@ class Conexion:
             ])
             doc = next(resultado, None)
             if doc:
-                print(doc["total"]) #test
-                return doc
+                return doc["total"]
         except Exception as e:
             print(f"❌ Error calculando el precio: {e}")
             return None
