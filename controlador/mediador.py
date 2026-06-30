@@ -134,4 +134,18 @@ class Mediador:
         if valido is None:
             tipo = "error"
             codigo = "codigo.erroneo.barras"
+        else:
+            tipo = "exito"  
+            codigo = valido
+        return tipo, codigo
+    
+
+    def calcularPrecio(self, ctdad_prod, codigoBarra):
+        total = self.conexion.calculoPrecio(ctdad_prod, codigoBarra)
+        if total is None:
+            tipo = "error"
+            codigo = "calculo.fallo"
+        else:
+            tipo = "exito"
+            codigo = total
         return tipo, codigo

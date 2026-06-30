@@ -209,18 +209,48 @@ class Conexion:
             print(f"❌ Error listando pedidos: {e}")
             return None
 
-##########################################################################
-##########              PEDIDOS C.R.U.D                     ##############
-##########################################################################
 
+
+##################### Extra
 
     def getCodigoBarra(self, codigo):
         try:
-            codigoBarra = self.col1.find_one({"codigoBarra": codigo})
+            codigoBarra = self.col3.find_one({"codigoBarra": codigo})
             if codigoBarra:
                 return codigoBarra.get("codigoBarra", None)
             else:
                 return None
         except Exception as e:
             print(f"❌ Error obteniendo código de barras: {e}")
+            return None
+        
+##########################################################################
+##########              PEDIDOS C.R.U.D                     ##############
+##########################################################################
+    def calculoPrecio(self, cantidad, codigo):
+        try:
+            resultado = self.col3.aggregate([
+                {
+                    "$match": { "codigoBarra": codigo }
+                },
+                {
+                    "$project": {
+                        "codigoBarra": 1,
+                        "nombreProd": 1,
+                        "precio": 1,
+                        "cantidad": { "$literal": cantidad },
+                        "total": {
+                            "$multiply": [
+                                { "$toDouble": "$precio" }, cantidad  #convierte el string a número ay mamá te extraño tanto sql
+                            ]
+                        }
+                    }
+                }
+            ])
+            doc = next(resultado, None)
+            if doc:
+                print(doc["total"]) #test
+                return doc
+        except Exception as e:
+            print(f"❌ Error calculando el precio: {e}")
             return None

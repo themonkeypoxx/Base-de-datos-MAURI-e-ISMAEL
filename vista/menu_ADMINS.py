@@ -99,7 +99,7 @@ class Menu_Admin:
         desc = input("Descripcion breve: ")
         codigo_B = input("Digite codigo de barras: ")
         tipo, codigo = self.mediador.validarCodigoBarra(codigo_B)
-        if tipo == "error":
+        if tipo == "exito": ## aca se maneja al reves la función.
             self.mensajeError("producto.existente.barra")
             return
         tipo = self.mediador.crearProducto(codigo_B, nombre, precio, desc)
@@ -108,6 +108,9 @@ class Menu_Admin:
         else:
             self.mensajeExito("producto.crear")
 
+#######################################################
+###########           EDICIÓN           ###############
+#######################################################
     def formularioEditarProducto(self):
         os.system('cls')
         print("######### Editar Producto ##########")
@@ -125,6 +128,10 @@ class Menu_Admin:
             self.mensajeError("producto.fallo.editar")
         else:
             self.mensajeExito("producto.editar")
+
+#######################################################
+###########           ELIMINACIÓN          ############
+#######################################################
 
     def formularioEliminarProducto(self):
         os.system('cls')
