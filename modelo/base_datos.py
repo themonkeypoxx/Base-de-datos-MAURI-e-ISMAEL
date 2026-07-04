@@ -258,7 +258,7 @@ class Conexion:
                         "cantidad": { "$literal": cantidad },
                         "total": {
                             "$multiply": [
-                                { "$toDouble": "$precio" }, cantidad  #convierte el string a número ay mamá te extraño tanto sql
+                                { "$toDouble": "$precio" }, cantidad  #convierte el string a número ay mamá te extraño tanto sql XDDDDDDDDD KDFSAKAKHSKASFFAS 
                             ]
                         }
                     }

@@ -43,7 +43,12 @@ class Menu_user:
                 lista_productos = []
                 self.formularioPedidos(lista_productos)
                 self.mostrarMenu(nombre)
-            #######AGREGAR 3 Y 4
+            elif seleccion == 3:
+                self.formularioCancelarPedido()
+                self.mostrarMenu(nombre)
+            elif seleccion == 4:
+                self.formularioCambiarFecha()
+                self.mostrarMenu(nombre)  
             elif seleccion == 5:
                 print("¿Cerrar sesión?")
                 confirmacion = input("(S | N):  ")
@@ -126,7 +131,57 @@ class Menu_user:
                     else:
                         input("Ingrese 's' o 'n'\nENTER para volver a intentar")
                         continue
-                        
+                    
+    def formularioCancelarPedido(self):
+        os.system('cls')
+        print("cancelar pedido") 
+        pedidos = mediador.obtPedidos(self.email)
+        if pedidos is None:
+            self.mensajes("error", "no.pedidos")
+            return 
+        for i, pedido in enumerate(pedidos):
+            print(f"{i} - Precio total: ${pedido.get('precioTotal')} | Fecha entrega: {pedido.get('fecha_entrega', 'Sin fecha')}")
+        try:
+            eleccion = int(input("Ingrese el numero del pedido a cancelar: "))
+            pedido_elegido = pedidos[eleccion]
+        except (ValueError, IndexError):
+            print("Numero Invalido")
+            input("ENTER para continuar")
+            return
+        confirmacion = input("¿seguro que desea cancelar este pedido? (S/N): ").strip().upper()
+        if confirmacion != "S":
+            print("Operacion cancelada")
+            input("ENTER para continuar")
+            return
+        resultado =mediador.eliminarPedido(str(pedido_elegido["_id"]))
+        if resultado =="error":
+            self.mensajes("error", "pedido.crear.fallo")
+        else:
+            self.mensajes("exito", "pedido.cancelar")
+            
+    def formularioCambiarFecha(self):
+        os.system('cls')
+        print("Cambiar fecha de entrega")
+        pedidos = mediador.obtPedidos(self.email)
+        if pedidos is None:
+            self.mensajes("error", "no.pedidos")
+            return
+        for i, pedido in enumerate(pedidos):
+            print(f"{i} - Precio total: ${pedido.get('precioTotal')} | Fecha entrega: {pedido.get('fecha_entrega', 'Sin fecha')}")
+        try:
+            eleccion = int(input("ingrese el numero del pedido a editar: "))
+            pedido_elegido = pedidos[eleccion]
+        except (ValueError, IndexError):
+            print("numero invalido.")
+            input("ENTER para continuar")
+            return
+        nueva_fecha = input("Nueva fecha de entrega (DD/MM/YYYY): ").strip()
+        resultado = mediador.editarPedido(str(pedido_elegido["_id"]), nueva_fecha)
+        if resultado == "error":
+            self.mensajes("error", "pedido.crear.fallo")
+        else:
+            self.mensajes("exito", "pedido.editar")
+                               
 
 
 
@@ -191,6 +246,8 @@ class Menu_user:
 
         elif tipo == "exito":
             if codigo == "pedido.crear":
-                input("ℹ️ El pedido fue creado con éxito!.\nENTER para volver al menú...")
-                
-
+                input("ℹ️ El pedido fue creado con éxito!.\nENTER para volver al menú...")    
+            elif codigo == "pedido.cancelar": 
+                input("Pedido cancelado con éxito! \nENTER para volver al menú...")
+            elif codigo == "pedido.editar":
+                input("Fecha de entrega actualizada con exito!. \nENTER para volver al menú...")

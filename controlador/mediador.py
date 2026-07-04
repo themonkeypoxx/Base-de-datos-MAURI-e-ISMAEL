@@ -129,8 +129,12 @@ class Mediador:
         resultados = General()
         resultados.ListarPedidos_General(nombre, tipo)
 
-
-
+    def obtPedidos(self, email):
+        tipo = self.conexion.listarPedidos(email)
+        if tipo is None:
+            return None
+        return tipo
+    
     def validarCodigoBarra(self, codigoBarra):
         valido = self.conexion.getCodigoBarra(codigoBarra)
         if valido is None:
