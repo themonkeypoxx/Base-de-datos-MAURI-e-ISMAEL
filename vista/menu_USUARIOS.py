@@ -18,7 +18,7 @@ class Menu_user:
     def mostrarMenu(self, nombre):
         os.system("cls")
         print("####################### MENÚ USUARIOS #######################")
-        print(" 1.- Listar Pedidos\n 2.- Hacer un pedido\n 3.- Cancelar Pedido (Borrar)\n 4.- Cambiar fecha de entrega de un pedido (Editar)\n 5.- Cerrar sesión ")
+        print(" 1.- Listar Pedidos\n 2.- Hacer un pedido\n 3.- Cancelar Pedido (Borrar)\n 4.- Editar un pedido\n 5.- Cerrar sesión ")
         print("#############################################################")
         seleccion = input("Elija una opción:  ")
         self.procesarEleccion(seleccion, nombre)
