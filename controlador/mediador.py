@@ -110,8 +110,8 @@ class Mediador:
 #########################################################################
 ######################### PEDIDOS #######################################
 #########################################################################
-    def editarPedido(self, id_pedido, fecha_entrega):
-        tipo = self.conexion.editarPedido(id_pedido, fecha_entrega)
+    def editarPedido(self, id_pedido, productos):
+        tipo = self.conexion.editarPedido(id_pedido, productos)
         if tipo is None:
             return "error"
         return "exito"

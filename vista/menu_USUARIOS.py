@@ -47,8 +47,8 @@ class Menu_user:
                 self.formularioCancelarPedido()
                 self.mostrarMenu(nombre)
             elif seleccion == 4:
-                self.formularioCambiarFecha()
-                self.mostrarMenu(nombre)  
+                self.formularioEditarPedido()
+                self.mostrarMenu(nombre)
             elif seleccion == 5:
                 print("¿Cerrar sesión?")
                 confirmacion = input("(S | N):  ")
@@ -140,7 +140,7 @@ class Menu_user:
             self.mensajes("error", "no.pedidos")
             return 
         for i, pedido in enumerate(pedidos):
-            print(f"{i} - Precio total: ${pedido.get('precioTotal')} | Fecha entrega: {pedido.get('fecha_entrega', 'Sin fecha')}")
+            print(f"{i} - Precio total: ${pedido.get('precioTotal')}")
         try:
             eleccion = int(input("Ingrese el numero del pedido a cancelar: "))
             pedido_elegido = pedidos[eleccion]
@@ -159,15 +159,15 @@ class Menu_user:
         else:
             self.mensajes("exito", "pedido.cancelar")
             
-    def formularioCambiarFecha(self):
+    def formularioEditarPedido(self):
         os.system('cls')
-        print("Cambiar fecha de entrega")
+        print("Editar Pedido")
         pedidos = mediador.obtPedidos(self.email)
         if pedidos is None:
             self.mensajes("error", "no.pedidos")
             return
         for i, pedido in enumerate(pedidos):
-            print(f"{i} - Precio total: ${pedido.get('precioTotal')} | Fecha entrega: {pedido.get('fecha_entrega', 'Sin fecha')}")
+            print(f"{i} - Precio total: ${pedido.get('precioTotal')}")
         try:
             eleccion = int(input("ingrese el numero del pedido a editar: "))
             pedido_elegido = pedidos[eleccion]
@@ -175,17 +175,28 @@ class Menu_user:
             print("numero invalido.")
             input("ENTER para continuar")
             return
-        nueva_fecha = input("Nueva fecha de entrega (DD/MM/YYYY): ").strip()
-        resultado = mediador.editarPedido(str(pedido_elegido["_id"]), nueva_fecha)
+        productos = pedido_elegido.get("productos", [])
+        for j, prod in enumerate(productos):
+            print(f"{j} - Código: {prod.get('codigoBarra')} | Cantidad: {prod.get('cantidad')}")
+        try:
+         prod_eleccion = int(input("Ingrese el número del producto a editar: "))
+         producto_elegido = productos[prod_eleccion]
+        except (ValueError, IndexError):
+            print("⁉️ Número inválido.")
+            input("ENTER para continuar...")
+            return
+        try:
+            nueva_cantidad = int(input("nueva cantidad: "))
+        except:
+            print("ingrese un numero entero")
+            input("ENTER para continuar")
+            return     
+        producto_elegido["cantidad"] = nueva_cantidad                
+        resultado  = mediador.editarPedido(str(pedido_elegido["_id"]), productos)
         if resultado == "error":
             self.mensajes("error", "pedido.crear.fallo")
         else:
-            self.mensajes("exito", "pedido.editar")
-                               
-
-
-
-            
+            self.mensajes("exito", "pedido.editar")    
 
 
 
@@ -250,4 +261,4 @@ class Menu_user:
             elif codigo == "pedido.cancelar": 
                 input("Pedido cancelado con éxito! \nENTER para volver al menú...")
             elif codigo == "pedido.editar":
-                input("Fecha de entrega actualizada con exito!. \nENTER para volver al menú...")
+                input("Pedido editado con éxito!. \nENTER para volver al menú...")

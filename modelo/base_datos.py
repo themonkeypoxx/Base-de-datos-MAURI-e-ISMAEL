@@ -191,12 +191,12 @@ class Conexion:
             return None
 
 
-    def editarPedido(self, id_pedido, fecha_entrega):
+    def editarPedido(self, id_pedido, productos):
         try:
             from bson import ObjectId
             resultado = self.col4.update_one(
                 {"_id": ObjectId(id_pedido)},
-                {"$set": {"fecha_entrega": fecha_entrega}}
+                {"$set": {"productos": productos}}
             )
             if resultado.modified_count > 0:
                 return True
