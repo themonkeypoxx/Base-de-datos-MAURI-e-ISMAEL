@@ -22,12 +22,13 @@ class General:
                     precio_mostrar = f"${precio}"
                     tabla.add_row([codigo, nombre, desc, precio_mostrar])
                 print(tabla)
+                input("ENTER para continuar...")
 
       def mensajeError(self, error):
             if error == "productos.nada":
                 print("⁉️ No hay productos en la tienda o algo salió mal durante la consulta.\n💡 Vuelva a intentar más tarde.")
                 input("ENTER para continuar...")
-            elif error == "pedidos,nada":
+            elif error == "pedidos.nada":
                 print("⁉️ No hay pedidos creados en tu cuenta o algo salió mal durante la consulta.\n💡 Vuelva a intentar más tarde.")
                 input("ENTER para continuar...")                  
 
@@ -55,3 +56,4 @@ class General:
                   cta+=1
 
                 print(tabla)
+                input("ENTER para continuar...")

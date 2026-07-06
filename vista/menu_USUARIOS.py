@@ -37,7 +37,6 @@ class Menu_user:
             if seleccion == 1:
                 correo = self.email 
                 self.listarPedidos(nombre, correo)
-                input("ENTER para continuar")
                 self.mostrarMenu(nombre)
             elif seleccion == 2:
                 lista_productos = []
@@ -188,7 +187,7 @@ class Menu_user:
         try:
             nueva_cantidad = int(input("nueva cantidad: "))
         except:
-            print("ingrese un numero entero")
+            print("⁉️ Ingrese un numero entero")
             input("ENTER para continuar")
             return     
         producto_elegido["cantidad"] = nueva_cantidad                
